@@ -52,9 +52,13 @@ const int down = 37;
 const int left = 38;
 const int right = 39;
 const int equalEnter = 40;
-const int funcPin1 = 41;
-const int funcPin2 = 42;
-const int funcPin3 = 43;
+const int funcPin1 = 41; //Calc
+const int funcPin2 = 42; //Ping
+const int funcPin3 = 43; //EV
+const int funcPin4 = 44; //LUX
+const int piButton = 45;
+
+const int Pi = 3.14159265358979
 
 int numEntered = 0;
 int tempNum1 = 0;
@@ -82,7 +86,9 @@ void setup() {
   pinMode(funcPin1, INPUT);
   pinMode(funcPin2, INPUT);
   pinMode(funcPin3, INPUT);
-  
+  pinMode(funcPin4, INPUT);
+  pinMode(piButton, INPUT);
+  //LUX INPUT
   Serial.begin(9600);
   lcd.begin (16, 2);
   lcd.setBacklightPin(BACKLIGHT_PIN, POSITIVE);
@@ -150,32 +156,35 @@ void Calculate() {
 if (digitalRead(num1 == HIGH)) {
   tempNum1 = 1;
 }
-if (digitalRead(num2 == HIGH)) {
+if else (digitalRead(num2 == HIGH)) {
   tempNum1 = 2;
 }
-if (digitalRead(num3 == HIGH)) {
+if else (digitalRead(num3 == HIGH)) {
   tempNum1 = 3;
 }
-if (digitalRead(num4 == HIGH)) {
+if else(digitalRead(num4 == HIGH)) {
   tempNum1 = 4;
 }
-if (digitalRead(num5 == HIGH)) {
+if else(digitalRead(num5 == HIGH)) {
   tempNum1 = 5;
 }
-if (digitalRead(num6 == HIGH)) {
+if else(digitalRead(num6 == HIGH)) {
   tempNum1 = 6;
 }
-if (digitalRead(num7 == HIGH)) {
+if else(digitalRead(num7 == HIGH)) {
   tempNum1 = 7;
 }
-if (digitalRead(num8 == HIGH)) {
+if else(digitalRead(num8 == HIGH)) {
   tempNum1 = 8;
 }
-if (digitalRead(num9 == HIGH)) {
+if else(digitalRead(num9 == HIGH)) {
   tempNum1 = 9;
 }
-if (digitalRead(num0 == HIGH)) {
+if else(digitalRead(num0 == HIGH)) {
   tempNum1 = 0;
+}
+else(digitalRead(piButton == HIGH)) {
+  tempNum1 = Pi;
 }
 }
 
@@ -208,7 +217,7 @@ void askStartFunc() {
 
   lcd.print("Choose Function:");
   lcd.setCursor(0,1);
-  lcd.print("1: Calc 2:Ping 3:EV");
+  lcd.print("Calc1Ping2EV3LX4");
    
   if (funcPin2 == HIGH) {
     lcd.home();
@@ -220,6 +229,11 @@ void askStartFunc() {
     lcd.clear();
     checkEnviroment();
   }
+  if(funcPin4 == HIGH) {
+    lcd.home();
+    lcd.clear();
+    luxCheck();
+  }
   else {
     lcd.home();
     lcd.clear();
@@ -227,7 +241,16 @@ void askStartFunc() {
   } 
 }
 
+void luxCheck() {
+  
+}
+
+void showInfo() {
+  //LCD Print in Notes
+}
+
 void loop() {
+  showInfo(); //Beginning About Screen
   askStartFunc();
 }
 
