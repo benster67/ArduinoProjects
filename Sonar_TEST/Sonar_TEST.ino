@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include <LCD.h>
 #include <LiquidCrystal_I2C.h>
+#include <dht.h>
 
 #define I2C_ADDR    0x3F
 #define BACKLIGHT_PIN     3
@@ -17,12 +18,20 @@
 #define ECHO_PIN     8
 #define MAX_DISTANCE 1000
 
+#define DHT11_PIN 10
+
 LiquidCrystal_I2C  lcd(I2C_ADDR, En_pin, Rw_pin, Rs_pin, D4_pin, D5_pin, D6_pin, D7_pin);
 
-NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE); // NewPing setup of pins and maximum distance.
+NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
+
+dht DHT;
 
 const int pingValue = sonar.ping_in();
 const int previousPingValue = 0;
+
+int celcius = 0;
+int farenheit = 0;
+int humidity = 0;
 
 const int num1 = 22;
 const int num2 = 23;
@@ -42,10 +51,38 @@ const int up = 36;
 const int down = 37;
 const int left = 38;
 const int right = 39;
-const int equalEnter = 40; 
-const int funcPin = 41;
+const int equalEnter = 40;
+const int funcPin1 = 41;
+const int funcPin2 = 42;
+const int funcPin3 = 43;
+
+int numEntered = 0;
+int tempNum1 = 0;
 
 void setup() {
+  pinMode(num1, INPUT);
+  pinMode(num2, INPUT);
+  pinMode(num3, INPUT);
+  pinMode(num4, INPUT);
+  pinMode(num5, INPUT);
+  pinMode(num6, INPUT);
+  pinMode(num7, INPUT);
+  pinMode(num8, INPUT);
+  pinMode(num9, INPUT);
+  pinMode(num0, INPUT);
+  pinMode(plus, INPUT);
+  pinMode(minus, INPUT);
+  pinMode(divide, INPUT);
+  pinMode(multiply, INPUT);
+  pinMode(up, INPUT);
+  pinMode(down, INPUT);
+  pinMode(left, INPUT);
+  pinMode(right, INPUT);
+  pinMode(equalEnter, INPUT);
+  pinMode(funcPin1, INPUT);
+  pinMode(funcPin2, INPUT);
+  pinMode(funcPin3, INPUT);
+  
   Serial.begin(9600);
   lcd.begin (16, 2);
   lcd.setBacklightPin(BACKLIGHT_PIN, POSITIVE);
@@ -64,9 +101,6 @@ void checkPing() {
   delayMicroseconds(10);
   digitalWrite(TRIGGER_PIN, LOW);
   pinMode(ECHO_PIN, INPUT);
-
-
-
   printPing();
   delay(1000);
   lcd.setCursor(0, 0);
@@ -101,7 +135,7 @@ void printPing() {
     Serial.println(inches);
     lcd.print(inches);
     lcd.print("in");
-    lcd.setCursor(0,1);
+    lcd.setCursor(0, 1);
     lcd.print(cm);
     lcd.print("cm");
     lcd.print("       ");
@@ -113,18 +147,88 @@ void printPing() {
 void Calculate() {
   lcd.clear();
   lcd.home();
-  //Start Calc Function and see if Jim can get buttons to work!!
+if (digitalRead(num1 == HIGH)) {
+  tempNum1 = 1;
+}
+if (digitalRead(num2 == HIGH)) {
+  tempNum1 = 2;
+}
+if (digitalRead(num3 == HIGH)) {
+  tempNum1 = 3;
+}
+if (digitalRead(num4 == HIGH)) {
+  tempNum1 = 4;
+}
+if (digitalRead(num5 == HIGH)) {
+  tempNum1 = 5;
+}
+if (digitalRead(num6 == HIGH)) {
+  tempNum1 = 6;
+}
+if (digitalRead(num7 == HIGH)) {
+  tempNum1 = 7;
+}
+if (digitalRead(num8 == HIGH)) {
+  tempNum1 = 8;
+}
+if (digitalRead(num9 == HIGH)) {
+  tempNum1 = 9;
+}
+if (digitalRead(num0 == HIGH)) {
+  tempNum1 = 0;
+}
+}
+
+void showTempNum1() {
+  lcd.setCursor(0, 1);
+  lcd.print(tempNum1);
+}
+
+void checkEnviroment() {
+  int chk = DHT.read11(DHT11_PIN);
+  celcius = DHT.temperature;
+  farenheit = (celcius * 1.800000) + 32;
+  humidity =  DHT.humidity;
+  printEnviromentStatus();
+}
+
+void printEnviromentStatus() {
+    lcd.print("Temp = ");
+    lcd.print(farenheit);
+    lcd.print(" Deg F ");
+    lcd.print(celcius);
+    lcd.println(" Deg C ");
+    lcd.print("Humidity = ");
+    lcd.print(humidity);
+    lcd.println("%");
+    //delay(1000);
+}
+
+void askStartFunc() {
+
+  lcd.print("Choose Function:");
+  lcd.setCursor(0,1);
+  lcd.print("1: Calc 2:Ping 3:EV");
+   
+  if (funcPin2 == HIGH) {
+    lcd.home();
+    lcd.clear();
+    checkPing();
+  }
+  if(funcPin3 == HIGH) {
+    lcd.home();
+    lcd.clear();
+    checkEnviroment();
+  }
+  else {
+    lcd.home();
+    lcd.clear();
+    Calculate();
+  } 
 }
 
 void loop() {
-  checkPing();
-
-  if(funcPin == HIGH) {
-    checkPing();
-  }
-  else {
-    Calculate();
-  }
+  askStartFunc();
 }
 
 

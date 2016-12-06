@@ -110,7 +110,7 @@
 void setup() {     
 pinMode(8, OUTPUT);   
 pinMode(9, OUTPUT);       
-digitalWrite(9,LOW);
+
 
 }
 
