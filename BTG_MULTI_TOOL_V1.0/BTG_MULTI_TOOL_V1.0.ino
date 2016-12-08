@@ -333,7 +333,7 @@ void setLEDGreen() {
   digitalWrite(RED, HIGH);
 }
 void setLEDRed() {
-  digitalWrite(GREEN, HIGH);
+  digitalWrite(GREEN, HIGH);//GREEN AND BLUE MAKE RED
   digitalWrite(BLUE, HIGH);
 }
   void buttonPressed() {
