@@ -1,4 +1,4 @@
-#include <NewPing.h>
+//#include <NewPing.h>
 #include <Wire.h>
 #include <LCD.h>
 #include <LiquidCrystal_I2C.h>
@@ -22,12 +22,12 @@
 
 LiquidCrystal_I2C  lcd(I2C_ADDR, En_pin, Rw_pin, Rs_pin, D4_pin, D5_pin, D6_pin, D7_pin);
 
-NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
+//NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 
 dht DHT;
 
-const int pingValue = sonar.ping_in();
-const int previousPingValue = 0;
+//const int pingValue = sonar.ping_in();
+//const int previousPingValue = 0;
 
 int celcius = 0;
 int farenheit = 0;
@@ -57,7 +57,7 @@ const int funcPin2 = 42; //Ping
 const int funcPin3 = 43; //EV
 const int funcPin4 = 44; //LUX
 const int piButton = 45;
-//POWER LED AND PIN 13 LED
+//POWER LED AND PIN 13 LED //CHANGED TO RGB LED
 const int photocellPin = A1;
 
 const int GREEN = 46;
@@ -70,7 +70,7 @@ int redVal = 0;
 int blueVal = 0;
 int greenVal = 0;
 
-const int speakerPin = 49; 
+const int speakerPin = 49;
 
 const int Pi = 3.14159265358979;
 
@@ -110,7 +110,7 @@ void setup() {
   pinMode(BLUE, OUTPUT);
   pinMode(RED, OUTPUT);
 
-  //pinMode(speakerPin, OUTPUT);
+  pinMode(speakerPin, OUTPUT);
 
   Serial.begin(9600);
   lcd.begin (16, 2);
@@ -153,10 +153,10 @@ void printPing() {
   long inches = microsecondsToInches(duration);
   long cm = microsecondsToCentimeters(duration);
 
-  if (inches >> 1500 && cm >> 3500)
-  {
-    //lcd.print("TOO FAR OR TOO CLOSE");
-  }
+  /* if (inches >> 1500 && cm >> 3500)
+    {
+     //lcd.print("TOO FAR OR TOO CLOSE");
+    }*/
 
   if (inches == 0) {}
 
@@ -176,39 +176,39 @@ void printPing() {
 void Calculate() {
   lcd.clear();
   lcd.home();
-if (digitalRead(num1 == HIGH)) {
-  tempNum1 = 1;
-}
-else if(digitalRead(num2 == HIGH)) {
-  tempNum1 = 2;
-}
-else if(digitalRead(num3 == HIGH)) {
-  tempNum1 = 3;
-}
-else if(digitalRead(num4 == HIGH)) {
-  tempNum1 = 4;
-}
-else if(digitalRead(num5 == HIGH)) {
-  tempNum1 = 5;
-}
-else if(digitalRead(num6 == HIGH)) {
-  tempNum1 = 6;
-}
-else if(digitalRead(num7 == HIGH)) {
-  tempNum1 = 7;
-}
-else if(digitalRead(num8 == HIGH)) {
-  tempNum1 = 8;
-}
-else if(digitalRead(num9 == HIGH)) {
-  tempNum1 = 9;
-}
-else if(digitalRead(num0 == HIGH)) {
-  tempNum1 = 0;
-}
-else if(digitalRead(piButton == HIGH)) {
-  tempNum1 = Pi;
-}
+  if (digitalRead(num1 == HIGH)) {
+    tempNum1 = 1;
+  }
+  else if (digitalRead(num2 == HIGH)) {
+    tempNum1 = 2;
+  }
+  else if (digitalRead(num3 == HIGH)) {
+    tempNum1 = 3;
+  }
+  else if (digitalRead(num4 == HIGH)) {
+    tempNum1 = 4;
+  }
+  else if (digitalRead(num5 == HIGH)) {
+    tempNum1 = 5;
+  }
+  else if (digitalRead(num6 == HIGH)) {
+    tempNum1 = 6;
+  }
+  else if (digitalRead(num7 == HIGH)) {
+    tempNum1 = 7;
+  }
+  else if (digitalRead(num8 == HIGH)) {
+    tempNum1 = 8;
+  }
+  else if (digitalRead(num9 == HIGH)) {
+    tempNum1 = 9;
+  }
+  else if (digitalRead(num0 == HIGH)) {
+    tempNum1 = 0;
+  }
+  else if (digitalRead(piButton == HIGH)) {
+    tempNum1 = Pi;
+  }
 }
 
 void showTempNum1() {
@@ -225,34 +225,34 @@ void checkEnviroment() {
 }
 
 void printEnviromentStatus() {
-    lcd.print("Temp = ");
-    lcd.print(farenheit);
-    lcd.print(" Deg F ");
-    lcd.print(celcius);
-    lcd.println(" Deg C ");
-    lcd.print("Humidity = ");
-    lcd.print(humidity);
-    lcd.println("%");
-    //delay(1000);
+  lcd.print("Temp = ");
+  lcd.print(farenheit);
+  lcd.print(" Deg F ");
+  lcd.print(celcius);
+  lcd.println(" Deg C ");
+  lcd.print("Humidity = ");
+  lcd.print(humidity);
+  lcd.println("%");
+  //delay(1000);
 }
 
 void askStartFunc() {
 
   lcd.print("Choose Function:");
-  lcd.setCursor(0,1);
+  lcd.setCursor(0, 1);
   lcd.print("Calc1Ping2EV3LX4");
-   
+
   if (funcPin2 == HIGH) {
     lcd.home();
     lcd.clear();
     checkPing();
   }
-  if(funcPin3 == HIGH) {
+  if (funcPin3 == HIGH) {
     lcd.home();
     lcd.clear();
     checkEnviroment();
   }
-  if(funcPin4 == HIGH) {
+  if (funcPin4 == HIGH) {
     lcd.home();
     lcd.clear();
     luxCheck();
@@ -261,14 +261,14 @@ void askStartFunc() {
     lcd.home();
     lcd.clear();
     Calculate();
-  } 
+  }
 }
 
 void luxCheck() {
   photocellReading = analogRead(photocellPin); //CHANGE TO LCD PRINT
   Serial.print("Lux: ");
   Serial.println(photocellReading);
-   if (photocellReading < 10) {
+  if (photocellReading < 10) {
     Serial.println(" - Dark");
   } else if (photocellReading < 200) {
     Serial.println(" - Dim");
@@ -283,11 +283,11 @@ void luxCheck() {
 }
 
 void bootRGB() {
- 
+
   int redVal = 255;
   int blueVal = 0;
   int greenVal = 0;
-  for( int i = 0 ; i < 255 ; i += 1 ){
+  for ( int i = 0 ; i < 255 ; i += 1 ) {
     greenVal += 1;
     redVal -= 1;
     analogWrite( GREEN, 255 - greenVal );
@@ -295,11 +295,11 @@ void bootRGB() {
 
     delay( delayTime );
   }
- 
+
   redVal = 0;
   blueVal = 0;
   greenVal = 255;
-  for( int i = 0 ; i < 255 ; i += 1 ){
+  for ( int i = 0 ; i < 255 ; i += 1 ) {
     blueVal += 1;
     greenVal -= 1;
     analogWrite( BLUE, 255 - blueVal );
@@ -307,11 +307,11 @@ void bootRGB() {
 
     delay( delayTime );
   }
- 
+
   redVal = 0;
   blueVal = 255;
   greenVal = 0;
-  for( int i = 0 ; i < 255 ; i += 1 ){
+  for ( int i = 0 ; i < 255 ; i += 1 ) {
     redVal += 1;
     blueVal -= 1;
     analogWrite( RED, 255 - redVal );
@@ -324,25 +324,36 @@ void showBootInfo() {
   //LCD Print in Notes
 }
 
-void buttonPressed() {
+void setLEDBlue() {
   digitalWrite(GREEN, HIGH); //RED AND GREEN MAKE BLUE
   digitalWrite(RED, HIGH);
-  playButtonTone();
 }
-
-void playButtonTone() {
-  tone(speakerPin,600,50);//FIND BETTER VALUES
+void setLEDGreen() {
+  digitalWrite(BLUE, HIGH); //RED AND BLUE MAKE GREEN
+  digitalWrite(RED, HIGH);
 }
-
-void showResult() {
+void setLEDRed() {
+  digitalWrite(GREEN, HIGH);
   digitalWrite(BLUE, HIGH);
-  digitalWrite(RED, HIGH);//TURN LED GREEN TO INDICATE RESULT WAS CALCULATED
-  //SHOW THE RESULT ON THE LCD
 }
+  void buttonPressed() {
+    setLEDBlue();
+    playButtonTone();
+  }
 
-void loop() {//Maybe in setup bc loop? //CHECK
-  showBootInfo(); //Beginning About Screen
-  askStartFunc();
-}
+  void playButtonTone() {
+    tone(speakerPin, 600, 50); //FIND BETTER VALUES
+  }
+
+  void showResult() {
+    setLEDGreen();
+    //SHOW THE RESULT ON THE LCD
+  }
+
+  void loop() {//Maybe in setup bc loop? //CHECK
+    showBootInfo(); //Beginning About Screen
+    askStartFunc(); //MAKE WORK
+    //ADD JOYSTICK
+  }
 
 

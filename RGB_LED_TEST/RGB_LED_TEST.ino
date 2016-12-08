@@ -12,12 +12,12 @@ void setup() {
   pinMode(GREEN, OUTPUT);
   pinMode(BLUE, OUTPUT);
   pinMode(RED, OUTPUT);
-  //digitalWrite(GREEN, HIGH);//RED AND GREEN MAKE BLUE
+digitalWrite(GREEN, HIGH);//RED AND GREEN MAKE BLUE
   digitalWrite(BLUE, HIGH);//RED AND BLUE MAKE GREEN
-  digitalWrite(RED, HIGH);
+  //digitalWrite(RED, HIGH);
 }
 
-
+void loop() {}
 void bootRGB() {
  
   int redVal = 255;
