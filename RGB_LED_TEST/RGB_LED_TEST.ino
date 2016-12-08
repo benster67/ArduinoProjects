@@ -3,21 +3,22 @@
 #define RED 12
 #define delayTime 2
 
+int redVal;
+int blueVal;
+int greenVal;
+
 void setup() {
 
   pinMode(GREEN, OUTPUT);
   pinMode(BLUE, OUTPUT);
   pinMode(RED, OUTPUT);
-  digitalWrite(GREEN, HIGH);
-  digitalWrite(BLUE, HIGH);
+  //digitalWrite(GREEN, HIGH);//RED AND GREEN MAKE BLUE
+  digitalWrite(BLUE, HIGH);//RED AND BLUE MAKE GREEN
   digitalWrite(RED, HIGH);
 }
 
-int redVal;
-int blueVal;
-int greenVal;
- 
-void loop() {
+
+void bootRGB() {
  
   int redVal = 255;
   int blueVal = 0;
