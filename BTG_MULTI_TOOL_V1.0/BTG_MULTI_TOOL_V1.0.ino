@@ -23,7 +23,7 @@
 LiquidCrystal_I2C  lcd(I2C_ADDR, En_pin, Rw_pin, Rs_pin, D4_pin, D5_pin, D6_pin, D7_pin);
 
 //NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
-
+//NO LONGER USED I MADE MY OWN FUCNTION
 dht DHT;
 
 //const int pingValue = sonar.ping_in();
@@ -153,12 +153,14 @@ void printPing() {
   long inches = microsecondsToInches(duration);
   long cm = microsecondsToCentimeters(duration);
 
-  /* if (inches >> 1500 && cm >> 3500)
+   if (inches >> 1500 && cm >> 3500)
     {
-     //lcd.print("TOO FAR OR TOO CLOSE");
-    }*/
+     lcd.print("TOO FAR/CLOSE");
+    }
 
-  if (inches == 0) {}
+  if (inches == 0 || cm == 0) {}
+
+  if(inches == 0 && cm == 0) {}
 
   else {
     Serial.println(inches);
@@ -207,7 +209,7 @@ void Calculate() {
     tempNum1 = 0;
   }
   else if (digitalRead(piButton == HIGH)) {
-    tempNum1 = Pi;
+    tempNum1 = Pi; //Make it only show up to 5 chars
   }
 }
 
@@ -282,7 +284,7 @@ void luxCheck() {
   delay(1000);
 }
 
-void bootRGB() {
+void setLEDRGB() {
 
   int redVal = 255;
   int blueVal = 0;
