@@ -21,6 +21,12 @@ if(y > 550 & y < 1050) {
 if(x > 550 & x < 1050) {
   Serial.println(" RIGHT");
 }
+if(x < 450) {
+  Serial.println("LEFT");
+}
+if(y < 450) {
+  Serial.println("DOWN");
+}
 //LEFT CHECK VALUES
 /*Serial.print(x);
 Serial.print(" ");

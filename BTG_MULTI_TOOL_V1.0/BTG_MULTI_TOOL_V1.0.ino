@@ -1,4 +1,4 @@
-//#include <NewPing.h>
+//#include <NewPing.h> NO LONGER NEEDED 
 #include <Wire.h>
 #include <LCD.h>
 #include <LiquidCrystal_I2C.h>
@@ -24,7 +24,7 @@ LiquidCrystal_I2C  lcd(I2C_ADDR, En_pin, Rw_pin, Rs_pin, D4_pin, D5_pin, D6_pin,
 
 //NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
 //NO LONGER USED I MADE MY OWN FUCNTION
-dht DHT;
+dht DHT; //INIT HUMIDITY SENSOR
 
 //const int pingValue = sonar.ping_in();
 //const int previousPingValue = 0;
@@ -74,6 +74,16 @@ const int speakerPin = 49;
 
 const int Pi = 3.14159265358979;
 
+int xPin = A5;
+int yPin = A4;
+int joyStickButton;
+
+int xAxis = 0;
+int yAxis = 0;
+
+int joyStickDirection = 0;
+int lastJoyStickDirection = 0;
+
 int photocellReading = 0;
 
 int numEntered = 0;
@@ -111,6 +121,10 @@ void setup() {
   pinMode(RED, OUTPUT);
 
   pinMode(speakerPin, OUTPUT);
+
+  pinMode(xPin, INPUT);
+  pinMode(yPin, INPUT);
+  pinMode(joyStickButton, INPUT);
 
   Serial.begin(9600);
   lcd.begin (16, 2);
@@ -153,14 +167,14 @@ void printPing() {
   long inches = microsecondsToInches(duration);
   long cm = microsecondsToCentimeters(duration);
 
-   if (inches >> 1500 && cm >> 3500)
-    {
-     lcd.print("TOO FAR/CLOSE");
-    }
+  if (inches >> 1500 && cm >> 3500)
+  {
+    lcd.print("TOO FAR/CLOSE");
+  }
 
   if (inches == 0 || cm == 0) {}
 
-  if(inches == 0 && cm == 0) {}
+  if (inches == 0 && cm == 0) {}
 
   else {
     Serial.println(inches);
@@ -242,7 +256,7 @@ void askStartFunc() {
 
   lcd.print("Choose Function:");
   lcd.setCursor(0, 1);
-  lcd.print("Calc1Ping2EV3LX4");
+  lcd.print("Calc1Ping2EV3LX4"); //Modify for Joystick
 
   if (funcPin2 == HIGH) {
     lcd.home();
@@ -338,24 +352,42 @@ void setLEDRed() {
   digitalWrite(GREEN, HIGH);//GREEN AND BLUE MAKE RED
   digitalWrite(BLUE, HIGH);
 }
-  void buttonPressed() {
-    setLEDBlue();
-    playButtonTone();
-  }
+void buttonPressed() {
+  setLEDBlue();
+  playButtonTone();
+}
 
-  void playButtonTone() {
-    tone(speakerPin, 600, 50); //FIND BETTER VALUES
-  }
+void playButtonTone() {
+  tone(speakerPin, 600, 50); //FIND BETTER VALUES
+}
 
-  void showResult() {
-    setLEDGreen();
-    //SHOW THE RESULT ON THE LCD
-  }
+void showResult() {
+  setLEDGreen();
+  //SHOW THE RESULT ON THE LCD
+}
+void checkJoyStickDirection() {
+  xAxis = analogRead(xPin);
+  yAxis = analogRead(yPin);
 
-  void loop() {//Maybe in setup bc loop? //CHECK
-    showBootInfo(); //Beginning About Screen
-    askStartFunc(); //MAKE WORK
-    //ADD JOYSTICK
+  if (yAxis > 550 & yAxis < 1050) {
+    joyStickDirection = 1;//UP
   }
+  if (yAxis < 450) {
+    joyStickDirection = 2;//DOWN
+  }
+  if (xAxis > 550 & xAxis < 1050) {
+    joyStickDirection = 3;//RIGHT
+  }
+  if (xAxis < 450) {
+    joyStickDirection = 4;//LEFT
+  }
+  Serial.println(joyStickDirection);
+  delay(100);
+}
+void loop() {//Maybe in setup bc loop? //CHECK
+  showBootInfo(); //Beginning About Screen
+  askStartFunc(); //MAKE WORK
+  //ADD JOYSTICK
+}
 
 
