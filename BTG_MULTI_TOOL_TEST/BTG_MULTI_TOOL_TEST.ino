@@ -126,6 +126,8 @@ void setup() {
   pinMode(yPin, INPUT);
   pinMode(joyStickButton, INPUT);
 
+  pinMode(photocellPin, INPUT);
+
   Serial.begin(9600);
   lcd.begin (20,4);
   lcd.setBacklightPin(BACKLIGHT_PIN, POSITIVE);
