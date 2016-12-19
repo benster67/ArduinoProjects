@@ -2,7 +2,7 @@
 
 dht DHT;
 
-#define DHT11_PIN 7
+#define DHT11_PIN 10
 
 
 int celcius = 0;
