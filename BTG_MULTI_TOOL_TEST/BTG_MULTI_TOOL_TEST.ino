@@ -162,7 +162,7 @@ long microsecondsToCentimeters(long microseconds)
 {
   return microseconds / 29 / 2;
 }
-void printPing() {
+void checkPing() {
 
 
   long duration = pulseIn(ECHO_PIN, HIGH);
@@ -282,7 +282,7 @@ void askStartFunc() {
   }
 }
 
-void luxCheck() {
+void checkLux() {
   photocellReading = analogRead(photocellPin); //CHANGE TO LCD PRINT
   Serial.print("Lux: ");
   Serial.println(photocellReading);
@@ -356,6 +356,8 @@ void setLEDRed() {
 }
 void buttonPressed() {
   setLEDBlue();
+  delay(50);
+  turnLEDOff();
   playButtonTone();
 }
 
