@@ -307,9 +307,11 @@ void askStartFunc() {
   lcd.setCursor(0,1);
   lcd.print("1: Calculate");
   lcd.setCursor(0,2);
-  lcd.print("2: Ping 3: Env");
+  lcd.print("2: Ping 4: Lux");
   lcd.setCursor(0,3);
-  lcd.print("4: Lux 5: Timer");
+  lcd.print("3: ENV");
+  lcd.setCursor(8,3);
+  lcd.print("5: Timer");
 
   button = buttonMatrix.getKey();
   switch(button) {
