@@ -51,17 +51,21 @@ long num2;
 double total;
 char operation;
 char button;
+char trigFunc;
 
-const byte ROWS = 4;
+const byte ROWS = 7;
 const byte COLS = 4;
 
 char buttons[ROWS][COLS] = {
+  {'sqd', 'exp', 'sqrt', 'var'},
+  {'asin', 'acos', 'atan', 'pi'},
+  {'sin', 'cos', 'tan', 'menu'},
   {'1', '2', '3', '+'},
   {'4', '5', '6', '-'},
   {'7', '8', '9', '*'},
   {'C', '0', '=', '/'}
 };
-byte rowPins[ROWS] = {A2, A3, A4, A5};
+byte rowPins[ROWS] = {A2, A3, A4, A5, 0, 1};
 byte colPins[COLS] = {2, 3, 4, 5};
 Keypad buttonMatrix = Keypad( makeKeymap(buttons), rowPins, colPins, ROWS, COLS);
 
@@ -120,6 +124,12 @@ void checkForButton() {
           lcd.setCursor(0,1); // set cursor to row 2
           lcd.print(operation); // print our operator
           break;
+        }
+        if(num1 !=0 && button= 'sin') {
+          buttonPressed();
+          trigFunc = button;//NOT SURE IF THIS WORKS OR NOT
+          lcd.setCursor(0,1);
+          lcd.print(trigFunc);
         }
 
     }
